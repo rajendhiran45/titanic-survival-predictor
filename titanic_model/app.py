@@ -30,7 +30,7 @@ age=st.sidebar.slider("Enter Passenger Age",min_value=1,max_value=100,value=25)
 pclass=st.sidebar.selectbox("Passenger Class", [1, 2, 3])
 sex=st.sidebar.radio("Sex", ["Male", "Female"])
 fare=st.sidebar.number_input("Fare Paid", min_value=0.0, value=30.0)
-sibsp=st.sidebar.number_input("Sibiling/Spouse",min_value=0,max_value=100)
+sibsp=st.sidebar.number_input("Sibling/Spouse",min_value=0,max_value=100)
 parch=st.sidebar.number_input("Parents/Children",min_value=0,max_value=100)
 Embark=st.sidebar.selectbox("Embarked Port",["C","Q", "S"])
 

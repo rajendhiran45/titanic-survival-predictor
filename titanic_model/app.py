@@ -17,12 +17,16 @@ def load_and_train():
     st.info(f"Model Accuracy: {acc*100:.1f}%")
     return model,x_test,y_test
 
-st.divider()
+st.set_page_config(
+    page_title="Titanic Predictor",
+    layout="wide"
+)
 
 st.title("Titanic Survival Predictor")
 st.subheader("Machine Learning Model to Predict Passenger Survival")
 st.write("An interactive machine learning application that predicts whether a Titanic passenger would survive based on factors such as class, age, gender, and fare. Built using Python, Pandas, Scikit-learn, and Streamlit.")
 
+st.divider()
 
 st.sidebar.title("Passenger Details")
 name=st.sidebar.text_input("Enter Passenger Name")
@@ -37,11 +41,6 @@ Embark=st.sidebar.selectbox("Embarked Port",["C","Q", "S"])
 model, x_test, y_test = load_and_train()
 
 if st.sidebar.button("Predict Survival"):
-    st.subheader(f"Passenger: {name}")
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Age", age)
-    col2.metric("Class", pclass)
-    col3.metric("Fare", f"${fare}")
     if not name.strip():
         st.warning("⚠️ Please enter passenger name")
     
@@ -58,6 +57,11 @@ if st.sidebar.button("Predict Survival"):
         st.warning("⚠️ Please enter valid parents/children count")
     
     else:
+        st.subheader(f"Passenger: {name}")
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Age", age)
+        col2.metric("Class", pclass)
+        col3.metric("Fare", f"${fare}")
         titanic.pred(model, name, age, pclass, sex, fare, sibsp, parch, Embark)
         titanic.feature_imp(model,x_test)
         

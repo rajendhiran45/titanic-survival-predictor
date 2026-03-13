@@ -26,12 +26,12 @@ st.write("An interactive machine learning application that predicts whether a Ti
 
 st.sidebar.title("Passenger Details")
 name=st.sidebar.text_input("Enter Passenger Name")
-age=st.sidebar.number_input("Enter Passenger Age")
+age=st.sidebar.slider("Enter Passenger Age",min_value=1,max_value=100,value=25)
 pclass=st.sidebar.selectbox("Passenger Class", [1, 2, 3])
 sex=st.sidebar.radio("Sex", ["Male", "Female"])
 fare=st.sidebar.number_input("Fare Paid", min_value=0.0, value=30.0)
-sibsp=st.sidebar.number_input("Sibiling/Spouse")
-parch=st.sidebar.number_input("Parents/Children")
+sibsp=st.sidebar.number_input("Sibiling/Spouse",min_value=0,max_value=100)
+parch=st.sidebar.number_input("Parents/Children",min_value=0,max_value=100)
 Embark=st.sidebar.selectbox("Embarked Port",["C","Q", "S"])
 
 model, x_test, y_test = load_and_train()
@@ -42,6 +42,22 @@ if st.sidebar.button("Predict Survival"):
     col1.metric("Age", age)
     col2.metric("Class", pclass)
     col3.metric("Fare", f"${fare}")
-    titanic.pred(model,name,age,pclass,sex,fare,sibsp,parch,Embark)
-    titanic.feature_imp(model,x_test)
+    if not name.strip():
+        st.warning("⚠️ Please enter passenger name")
+    
+    elif age <= 0:
+        st.warning("⚠️ Please enter a valid age")
+    
+    elif fare <= 0:
+        st.warning("⚠️ Please enter the fare amount")
+    
+    elif sibsp < 0:
+        st.warning("⚠️ Please enter valid siblings/spouse count")
+    
+    elif parch < 0:
+        st.warning("⚠️ Please enter valid parents/children count")
+    
+    else:
+        titanic.pred(model, name, age, pclass, sex, fare, sibsp, parch, Embark)
+        titanic.feature_imp(model,x_test)
         
